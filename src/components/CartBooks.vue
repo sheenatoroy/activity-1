@@ -14,7 +14,7 @@
               </tr>
             </thead>
             <tbody>
-              <!--dito iinsert yung mga na add to cart na product-->
+              <!--The books that added in cart must be display here make it loop-->
             </tbody>
           </table>
         </div>
