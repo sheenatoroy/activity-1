@@ -1,18 +1,23 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <main>
-    <div v-for="(book, index) in books" :key="index" class="books">
-        <div>
-            <img :src="book.imgUrl" alt="" class="book-img">
+        <div class="search-bar">
+            <input type="text" placeholder="Search books..." v-model="searchQuery">
+            <button @click="searchBooks">Search</button>
         </div>
-        <div class="descp">
-            <h3>{{ book.title }}</h3>
-            <p>Author: {{ book.author }}</p>
-            <p>Description: {{ book.description }}</p>
-            <p>Price: ${{ book.price }}</p>
-            <button type="button" @click="addToCart(book)">Add to Cart</button>
+    
+    <main style="margin-top: 10%;">
+        <div v-for="(book, index) in books" :key="index" class="books">
+            <div >
+                <img :src="book.imgUrl" alt="" class="book-img">
+            </div>
+            <div class="descp">
+                <h3>{{ book.title }}</h3>
+                <p> <span style="font-weight: bold; color:white;">Author: </span> {{ book.author }}</p>
+                <p style="margin-bottom: 2%; color:white; font-size: 18px;"> <span style="font-weight: bold; text-align: justify; color:white;">Description: </span>{{ book.description }}</p>
+                <p style="margin-bottom: 2%; color:white; font-size: 18px;"><span style="font-weight: bold; color:white;">Price:</span> ${{ book.price }}</p>
+                <button type="button" @click="addToCart(book)">Add to Cart</button>
+            </div>
         </div>
-    </div>
     </main>
 </template>
 
@@ -21,8 +26,8 @@
         computed: {
         books() {
             // Check if $store and $store.getters are available before accessing
-            if (this.$books && this.$books.getters && this.$books.getters.salesBooks) {
-            return this.$books.getters.salesBooks;
+            if (this.$store && this.$store.getters && this.$store.getters.salesBooks) {
+            return this.$store.getters.salesBooks;
             } else {
             return [];
             }
@@ -38,125 +43,21 @@
 </script>
 
 <style scoped>
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-body{
-    line-height: 1;
-}
+
 ol, ul {
 	list-style: none;
 }
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
 
-/* ---------------------------------------------------------- Main css -------------------------------------------------------------*/
-body{
-    font-family: 'Roboto', sans-serif;
-    min-height: 100vh;
-}
-/* ------------------------------------------------- for mobiles -------------------------------------------------------------------- */
 @media(max-width: 900px){
-    /* ---------------------------------- NAV BAR ---------------------------- */
-    .nav-bar{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .nav1{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .icon-about{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 0.5em;
-        padding: 1em;
-    }
-    .nav1 a{
-        margin-top: 0.5em;
-        padding: 1em;
-        border-bottom: 1px solid #adb5bd;
-        color: #adb5bd;
-        font-size: 1em;
-        text-decoration: none;
-        transform: translateY(103px);
-    }
-    .nav1 input{
-        margin-top: 0.5em;
-        border: none;
-        border-bottom: 1px solid #adb5bd;
-        padding: 0.8em 1em;
-        font-size: 1em;
-    }
-    .nav1 input::placeholder{
-        font-family: 'Roboto', sans-serif;
-        color: #adb5bd;
-        font-size: 1em;
-    }
-    input:focus, textarea:focus, select:focus{
-        outline: none;
-    }
-    .nav-bar h3{
-        margin-top: 0.5em;
-        /* border-bottom: 1px solid #adb5bd; */
-        padding: 0.8em 1em;
-        font-size: 1em;
-        font-weight: bold;
-        transform: translateY(-103px);
-    }
-    .material-icons-outlined{
-        color: #adb5bd;
-        size: 2px;
-        margin-right: 1em;
-    
-    }
-    .icon-about a{
-        text-decoration: none;
-        color: #adb5bd;
-        font-size: 1em;
-        padding-left: 1em;
-    }
-
-    /* ------------------------- main book store ---------------------------- */
     main{
         margin-top: 50px;
-        font-family: 'Noto Sans JP', sans-serif;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
     .books{
         display: flex;
@@ -166,6 +67,7 @@ body{
         margin-bottom: 3em;
         margin-top: 50%;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        width: 100%;
     }
     .books:nth-of-type(2){
         background-color: #fbadaf;
@@ -190,32 +92,8 @@ body{
     .descp{
         margin: 1.5em;
         padding: 1em;
-        
     }
-    .book-name{
-        font-weight: bold;
-        padding-bottom: 0.5em;
-        font-size: 1.1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .author{
-        padding-bottom: 0.5em;
-        font-size: 1.1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .rating{
-        padding-bottom: 1.2em;
-        font-size: 1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .info{
-        font-size: 1em;
-        letter-spacing: 1px;
-        color: white;
-    }
+    
     .descp button{
         margin-top: 1em;
         background: none;
@@ -226,6 +104,7 @@ body{
         font-size: 1em;
         border-radius: 20px;
         font-weight: bolder;
+        cursor: pointer;
     }
     .descp button:hover{
         color: #a790f2;
@@ -252,73 +131,8 @@ body{
 }
 
 
-
-
-
-
 /*--------------------------------------------------------------- fOR PC AND LAPTOPS -------------------------------------------- */
 @media(min-width: 900px){
-    /* ----------------------------------------------------- Navbar ---------------------------------------------------------- */
-    .nav-bar{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .nav1{
-        display: flex;
-        flex-direction: row;
-        margin-left: 1em;
-        margin-bottom: 1em;
-        margin-top: 1em;
-    }
-    .nav1 a{
-        padding: 1em;
-        border: none;
-        border-right: 1px solid #adb5bd;
-        color: #adb5bd;
-        font-size: 1em;
-        text-decoration: none;
-    }
-    .nav1 input{
-        border: none;
-        margin-left: 0.5em;
-        padding: 0.8em 1em;
-        font-size: 1em;
-    }
-    .nav1 input::placeholder{
-        font-family: 'Roboto', sans-serif;
-        color: #adb5bd;
-        font-size: 1em;
-    }
-    input:focus, textarea:focus, select:focus{
-        outline: none;
-    }
-    .nav-bar h3{
-        padding: 0.8em 1em;
-        margin-left: 1em;
-        margin-bottom: 1em;
-        margin-top: 1em;
-        font-size: 1em;
-        font-weight: bold;
-    }
-    .icon-about{
-        display: flex;
-        align-items: center;
-    }
-    .material-icons-outlined{
-        color: #adb5bd;
-        size: 2px;
-        margin-right: 1em;
-    
-    }
-    .icon-about a{
-        margin-right: 2em;
-        text-decoration: none;
-        color: #adb5bd;
-        font-size: 1em;
-        border-left: 1px solid #adb5bd;
-        padding-left: 1em;
-    }
 
     /* ------------------- MAIN BOOKS ---------------------------------- */
     main{
@@ -340,6 +154,7 @@ body{
         border-radius: 10px;
         margin-bottom: 3em;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+        height: 70vh;
     }
     .books:nth-of-type(2){
         background-color: #fbadaf;
@@ -349,6 +164,12 @@ body{
     }
     .books:nth-of-type(4){
         background-color: #fdca95;
+    }
+    .books:nth-of-type(5){
+        background-color: #fbadaf;
+    }
+    .books:nth-of-type(6){
+        background-color: #a4e0eb;
     }
     .book-img{
         width: 100%;
@@ -364,31 +185,19 @@ body{
     .descp{
         margin: 1.5em;
         padding: 1em;
-        
     }
-    .book-name{
+
+    .descp p{
+        margin-bottom: 2%; 
+        color:white; 
+        font-size: 18px;
+    }
+
+    .descp h3{
+        font-size: 30px; 
         font-weight: bold;
-        padding-bottom: 0.5em;
-        font-size: 1.1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .author{
-        padding-bottom: 0.5em;
-        font-size: 1.1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .rating{
-        padding-bottom: 1.2em;
-        font-size: 1em;
-        letter-spacing: 1px;
-        color: white;
-    }
-    .info{
-        font-size: 1em;
-        letter-spacing: 1px;
-        color: white;
+        margin-bottom: 2%; 
+        color:white;
     }
     .descp button{
         margin-top: 1em;
@@ -400,6 +209,7 @@ body{
         font-size: 1em;
         border-radius: 20px;
         font-weight: bolder;
+        cursor: pointer;
     }
     .descp button:hover{
         color: #a790f2;
@@ -422,6 +232,34 @@ body{
     #b3:hover{
         color: #fb9124;
     }
+}
+
+.search-bar {
+        display: flex;
+        align-items: center;
+        margin-top: 10%;
+        margin-left: 2%;
+}
+
+.search-bar input {
+    padding: 20px;
+    width: 90%;
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Add border */
+}
+
+.search-bar button {
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+
+}
+
+.search-bar button:hover {
+    background-color: #45a049;
 }
 </style>
     

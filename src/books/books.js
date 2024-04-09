@@ -1,7 +1,7 @@
 // books.js (Vuex store)
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
-export default createStore({
+const store = createStore({
     name: 'books', 
     state: {
         books: [
@@ -32,7 +32,7 @@ export default createStore({
                 description: 'The novel was inspired by a youthful romance Fitzgerald had with socialite Ginevra King.', 
                 price: 400,
                 imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/81djg0KWthS.jpg'
-            }
+            },
         ],
     },
     getters: {
@@ -44,8 +44,10 @@ export default createStore({
                     description: book.description,
                     price: book.price,
                     imgUrl: book.imgUrl
-                }
-            })
+                };
+            });
         },
     },
 });
+
+export default store;
