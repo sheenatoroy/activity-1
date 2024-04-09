@@ -2,7 +2,7 @@
 import { createStore } from 'vuex'
 
 export default createStore({
-    name: 'store', // Removed the space after 'store'
+    name: 'books', 
     state: {
         books: [
             { 

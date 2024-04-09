@@ -1,18 +1,16 @@
 <template>
     <div class="BrowseBook">
-        <BrowseBook></BrowseBook>
+        <BrowseBook />
     </div>
 </template>
 
 <script>
-
 import BrowseBook from '@/components/BrowseBook.vue';
 
 export default {
-    name: 'BrowseBook',
+    name: 'BrowseBookView',
     components: {
         BrowseBook
-
     }
 }
 </script>

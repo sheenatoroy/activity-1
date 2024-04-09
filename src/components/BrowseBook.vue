@@ -1,34 +1,34 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <main>
-        <div v-for="(book, index) in books" :key="index" class="books">
-            <div>
+    <div v-for="(book, index) in books" :key="index" class="books">
+        <div>
             <img :src="book.imgUrl" alt="" class="book-img">
-            </div>
-            <div class="descp">
+        </div>
+        <div class="descp">
             <h3>{{ book.title }}</h3>
             <p>Author: {{ book.author }}</p>
             <p>Description: {{ book.description }}</p>
             <p>Price: ${{ book.price }}</p>
             <button type="button" @click="addToCart(book)">Add to Cart</button>
-            </div>
         </div>
+    </div>
     </main>
 </template>
 
 <script>
-export default {
-    computed: {
+    export default {
+        computed: {
         books() {
-        // Check if $store and $store.getters are available before accessing
-        if (this.$store && this.$store.getters && this.$store.getters.salesBooks) {
-            return this.$store.getters.salesBooks;
-        } else {
+            // Check if $store and $store.getters are available before accessing
+            if (this.$books && this.$books.getters && this.$books.getters.salesBooks) {
+            return this.$books.getters.salesBooks;
+            } else {
             return [];
-    }
-}
+            }
+        }
     },
-    methods: {
+        methods: {
         addToCart(book) {
             console.log("Added to cart:", book);
             // Dispatch an action to add the book to the cart if needed
@@ -36,7 +36,6 @@ export default {
     }
 }
 </script>
-
 
 <style scoped>
 html, body, div, span, applet, object, iframe,
