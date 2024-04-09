@@ -1,12 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-        <div class="search-bar">
-            <input type="text" placeholder="Search books..." v-model="searchQuery">
-            <button @click="searchBooks">Search</button>
-        </div>
-    
+    <div class="search-bar">
+        <input type="text" placeholder="Search books..." v-model="searchQuery">
+        <button @click="searchBooks">Search</button>
+       
+    </div>
+
     <main style="margin-top: 10%;">
-        <div v-for="(book, index) in books" :key="index" class="books">
+        <div v-for="(book, index) in filteredBooks" :key="index" class="books"> <!-- Use filteredBooks -->
             <div >
                 <img :src="book.imgUrl" alt="" class="book-img">
             </div>
@@ -22,25 +23,46 @@
 </template>
 
 <script>
-    export default {
-        computed: {
+export default {
+    data() {
+        return {
+            searchQuery: ''
+        };
+    },
+    computed: {
         books() {
-            // Check if $store and $store.getters are available before accessing
             if (this.$store && this.$store.getters && this.$store.getters.salesBooks) {
-            return this.$store.getters.salesBooks;
+                return this.$store.getters.salesBooks;
             } else {
-            return [];
+                return [];
             }
+        },
+        filteredBooks() {
+            if (!this.searchQuery) {
+                return this.books;
+            }
+            return this.books.filter(book => {
+                return book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                       book.author.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                       book.description.toLowerCase().includes(this.searchQuery.toLowerCase());
+            });
         }
     },
-        methods: {
+    methods: {
         addToCart(book) {
             console.log("Added to cart:", book);
             // Dispatch an action to add the book to the cart if needed
+        },
+        searchBooks() {
+            console.log("Search query:", this.searchQuery);
+        },
+        clearSearch() {
+            this.searchQuery = ''; // Clear search query
         }
     }
 }
 </script>
+
 
 <style scoped>
 

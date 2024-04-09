@@ -3,36 +3,71 @@
     <nav id="navbar" class="">
       <div class="nav-wrapper">
         <div class="logo">
-          <a><i class="fa fa-angellist"></i>Online Bookstore</a>
+          <a>Online Bookstore</a>
         </div>
 
         <ul id="menu">
+
           <li>
+            <router-link to="/" class="nav-link"> 
+              <a class="nav-link">Home</a> 
+            </router-link>
+          </li>
+          
+          <li v-if="isLoggedIn">
             <router-link to="/BrowseBook" class="nav-link"> 
               <a class="nav-link">Browse Books</a> 
             </router-link>
           </li>
 
-          <li>
+          <li v-if="isLoggedIn">
             <router-link to="/CartBooks" class="nav-link"> 
               <a class="nav-link">Cart Books</a> 
             </router-link>
           </li>
 
-          <li>
-            <router-link to="/Login" class="nav-link"> 
-              <a class="nav-link">Login</a> 
-            </router-link>
+          <li class="dropdown" @mouseover="toggleDropdown(true)" @mouseleave="toggleDropdown(false)">
+            <a class="nav-link dropdown-toggle">
+              <i class="fa fa-user"></i> 
+            </a>
+            <ul class="dropdown-menu" v-if="isDropdownOpen">
+              <li><router-link to="/Login" class="nav-link">Login</router-link></li>
+              <li><router-link to="/Status" class="nav-link">Status</router-link></li>
+            
+            </ul>
           </li>
+
         </ul>
         
       </div>
     </nav>
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
+<script>
+import '@fortawesome/fontawesome-free/css/all.css';
+
+export default {
+  data() {
+    return {
+      isDropdownOpen: false,
+      isLoggedIn: false 
+
+    };
+  },
+  methods: {
+    toggleDropdown(open) {
+      this.isDropdownOpen = open;
+    },
+  }
+};
+</script>
+
+
+
 <style>
+
 * {
   border: 0;
   box-sizing: border-box;
@@ -81,11 +116,12 @@ a {
 
 .logo {
   float: left;
-  margin-left: 28px;
-  font-size: 1.5em;
+  margin-left: -30px;
+  font-size: 1em;
   height: 60px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  font-weight: bold;
 } @media(max-width: 768px) {
     .logo {
     }
@@ -164,6 +200,47 @@ a {
 #navbar li a:hover:after {
   background: transparent;
   width: 100%;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  margin-left: 5px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%; /* Place the dropdown menu below the "Dropdown" word */
+  left: 0;
+  width: 300%; /* Make the dropdown menu width match the parent */
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 10px 0;
+  
+}
+
+.dropdown-menu li {
+  display: block;
+}
+
+.dropdown-menu li a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
 
 

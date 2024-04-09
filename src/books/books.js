@@ -1,4 +1,3 @@
-// books.js (Vuex store)
 import { createStore } from 'vuex';
 
 const store = createStore({

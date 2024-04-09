@@ -22,9 +22,9 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    height:545px;
+    height: 100vh;
     background-size: 100% 100%;
-    margin-top: 60px;
+  
 }
 
 .section-1-text{
