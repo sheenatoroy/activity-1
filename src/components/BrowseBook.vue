@@ -1,45 +1,18 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <main>
-        <div class="books">
+        <div v-for="(book, index) in books" :key="index" class="books">
             <div>
-                <img src="https://images-na.ssl-images-amazon.com/images/I/718ReYbwlFL.jpg" alt="" class="book-img">
+            <img :src="book.imgUrl" alt="" class="book-img">
             </div>
             <div class="descp">
-                <button type="submit">Add to Cart</button>
+            <h3>{{ book.title }}</h3>
+            <p>Author: {{ book.author }}</p>
+            <p>Description: {{ book.description }}</p>
+            <p>Price: ${{ book.price }}</p>
+            <button type="button" @click="addToCart(book)">Add to Cart</button>
             </div>
         </div>
-
-        <div class="books">
-            <div>
-                <img src="https://images-na.ssl-images-amazon.com/images/I/91JxVjINNsL.jpg" alt="" class="book-img">
-            </div>
-            <div class="descp">
-                
-                <button type="submit" id="b1">Add to Cart</button>
-            </div>
-        </div>
-
-        <div class="books">
-            <div>
-                <img src="https://images-na.ssl-images-amazon.com/images/I/9129dzchsGL.jpg" alt="" class="book-img">
-            </div>
-            <div class="descp">
-                <button type="submit" id="b2">Add to Cart</button>
-            </div>
-        </div>
-
-        <div class="books">
-            <div>
-                <img src="https://images-na.ssl-images-amazon.com/images/I/81djg0KWthS.jpg"
-                    alt="" class="book-img">
-            </div>
-            <div class="descp">
-    
-                <button type="submit" id="b3">Add to Cart</button>
-            </div>
-        </div>
-
     </main>
 </template>
 
@@ -47,16 +20,24 @@
 export default {
     computed: {
         books() {
-            return this.$store.state.books
-        },
-        salesBooks() {
-            return this.$store.getters.salesBooks
-        }
+        // Check if $store and $store.getters are available before accessing
+        if (this.$store && this.$store.getters && this.$store.getters.salesBooks) {
+            return this.$store.getters.salesBooks;
+        } else {
+            return [];
+    }
+}
     },
+    methods: {
+        addToCart(book) {
+            console.log("Added to cart:", book);
+            // Dispatch an action to add the book to the cart if needed
+        }
+    }
 }
 </script>
 
-    
+
 <style scoped>
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

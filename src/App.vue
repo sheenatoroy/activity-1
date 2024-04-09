@@ -7,12 +7,6 @@
         </div>
 
         <ul id="menu">
-          <!-- <li>
-            <router-link to="/HomeViews" class="nav-link">
-              <a class="nav-link">Home</a> 
-            </router-link>
-          </li> -->
-
           <li>
             <router-link to="/BrowseBook" class="nav-link"> 
               <a class="nav-link">Browse Books</a> 
@@ -22,6 +16,12 @@
           <li>
             <router-link to="/CartBooks" class="nav-link"> 
               <a class="nav-link">Cart Books</a> 
+            </router-link>
+          </li>
+
+          <li>
+            <router-link to="/Login" class="nav-link"> 
+              <a class="nav-link">Login</a> 
             </router-link>
           </li>
         </ul>
