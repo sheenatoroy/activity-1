@@ -54,7 +54,7 @@ export default {
       isDropdownOpen: false,
 
       //eto yung way para mawala yung browsebooks at cart 
-      isLoggedIn: false 
+      isLoggedIn: true 
 
     };
   },
