@@ -4,12 +4,14 @@ import BrowseBookView from '../views/BrowseBookView.vue';
 import CartBooks from '@/components/CartBooks.vue';
 import LoginViews from '../views/LoginViews.vue';
 
+
 const routes = [
     {
         path: '/',
         name: 'Home',
         component: HomeViews
     },
+    
     {
         path: '/BrowseBook',
         name: 'BrowseBook',

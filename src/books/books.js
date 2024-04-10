@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 const store = createStore({
     name: 'books', 
     state: {
+        isLoggedIn: false, // pa ma track yung status ng user
         books: [
             { 
                 title: 'After You', 
@@ -33,6 +34,12 @@ const store = createStore({
                 imgUrl: 'https://images-na.ssl-images-amazon.com/images/I/81djg0KWthS.jpg'
             },
         ],
+    },
+    //dito mareretrieve yung commit from Login.vue
+    mutations: {
+        setUserAuthenticated(state, value) {
+            state.isLoggedIn = value;
+        }
     },
     getters: {
         salesBooks: state => {

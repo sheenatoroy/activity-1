@@ -7,69 +7,79 @@
         </div>
 
         <ul id="menu">
-
           <li>
-            <router-link to="/" class="nav-link"> 
-              <a class="nav-link">Home</a> 
-            </router-link>
-          </li>
-          
-          <li v-if="isLoggedIn">
-            <router-link to="/BrowseBook" class="nav-link"> 
-              <a class="nav-link">Browse Books</a> 
+            <router-link to="/" class="nav-link">
+              <a class="nav-link">Home</a>
             </router-link>
           </li>
 
           <li v-if="isLoggedIn">
-            <router-link to="/CartBooks" class="nav-link"> 
-              <a class="nav-link">Cart Books</a> 
+            <router-link to="/BrowseBook" class="nav-link">
+              <a class="nav-link">Browse Books</a>
             </router-link>
           </li>
 
-          <li class="dropdown" @mouseover="toggleDropdown(true)" @mouseleave="toggleDropdown(false)">
+          <li v-if="isLoggedIn">
+            <router-link to="/CartBooks" class="nav-link">
+              <a class="nav-link">Cart Books</a>
+            </router-link>
+          </li>
+
+          <li
+            class="dropdown"
+            @mouseover="toggleDropdown(true)"
+            @mouseleave="toggleDropdown(false)"
+          >
             <a class="nav-link dropdown-toggle">
-              <i class="fa fa-user"></i> 
+              <i class="fa fa-user"></i>
             </a>
-            <ul class="dropdown-menu" v-if="isDropdownOpen">
-              <li><router-link to="/Login" class="nav-link">Login</router-link></li>
-              <li><router-link to="/Status" class="nav-link">Status</router-link></li>
-            
+            <ul class="dropdown-menu" v-show="isDropdownOpen && isLoggedIn">
+              <li>
+                <router-link to="/Status" class="nav-link">Status</router-link>
+              </li>
+              <li>
+                <a class="nav-link" @click="logout">Logout</a>
+              </li>
+            </ul>
+            <ul class="dropdown-menu" v-show="isDropdownOpen && !isLoggedIn">
+              <li>
+                <router-link to="/Login" class="nav-link">Login</router-link>
+              </li>
             </ul>
           </li>
-
         </ul>
-        
       </div>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import '@fortawesome/fontawesome-free/css/all.css';
+import "@fortawesome/fontawesome-free/css/all.css";
+import { mapState } from "vuex";
 
 export default {
+  computed: {
+    ...mapState(["isLoggedIn"]),
+  },
   data() {
     return {
       isDropdownOpen: false,
-
-      //eto yung way para mawala yung browsebooks at cart 
-      isLoggedIn: false 
-
     };
   },
   methods: {
     toggleDropdown(open) {
       this.isDropdownOpen = open;
     },
-  }
+    logout() {
+      this.$store.commit("setUserAuthenticated", false);
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 
-
-
 <style>
-
 * {
   border: 0;
   box-sizing: border-box;
@@ -105,16 +115,17 @@ a {
   margin: auto;
   text-align: center;
   width: 70%;
-} @media(max-width: 768px) {
-    .nav-wrapper {
-      width: 90%;
-    }
-  } @media(max-width: 638px) {
-      .nav-wrapper {
-        width: 100%;
-      }
-    } 
-
+}
+@media (max-width: 768px) {
+  .nav-wrapper {
+    width: 90%;
+  }
+}
+@media (max-width: 638px) {
+  .nav-wrapper {
+    width: 100%;
+  }
+}
 
 .logo {
   float: left;
@@ -124,10 +135,11 @@ a {
   letter-spacing: 1px;
   text-transform: uppercase;
   font-weight: bold;
-} @media(max-width: 768px) {
-    .logo {
-    }
+}
+@media (max-width: 768px) {
+  .logo {
   }
+}
 
 #navbar ul {
   display: inline-block;
@@ -135,17 +147,17 @@ a {
   list-style: none;
   margin-top: -2px;
   text-align: right;
-  transition: transform 0.5s ease-out;
-  -webkit-transition: transform 0.5s ease-out;
-} @media(max-width: 640px) {
-    #navbar ul {
-      display: none;
-    }
-  } @media(orientation: landscape) {
-      #navbar ul {
-        display: inline-block;
-      }
-    }
+}
+@media (max-width: 640px) {
+  #navbar ul {
+    display: none;
+  }
+}
+@media (orientation: landscape) {
+  #navbar ul {
+    display: inline-block;
+  }
+}
 
 #navbar li {
   display: inline-block;
@@ -163,19 +175,16 @@ a {
   text-decoration: none;
   text-transform: uppercase;
   transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
 }
 
 #navbar li a:hover {
   color: rgb(28, 121, 184);
-  transition: all 1s ease;
-  -webkit-transition: all 1s ease;
   cursor: pointer;
 }
 
-
-#navbar li a:before, #navbar li a:after {
-  content: '';
+#navbar li a:before,
+#navbar li a:after {
+  content: "";
   position: absolute;
   width: 0%;
   height: 1px;
@@ -209,21 +218,23 @@ a {
 }
 
 .dropdown-toggle::after {
-  content: '\25BC'; /* Unicode character for down arrow */
+  content: "\25BC";
   margin-left: 5px;
 }
 
 .dropdown-menu {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: 100%; /* Place the dropdown menu below the "Dropdown" word */
-  left: 0;
-  width: 300%; /* Make the dropdown menu width match the parent */
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
   background-color: white;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 10px 0;
-  
 }
 
 .dropdown-menu li {
@@ -244,6 +255,4 @@ a {
 .dropdown:hover .dropdown-menu {
   display: block;
 }
-
-
 </style>
