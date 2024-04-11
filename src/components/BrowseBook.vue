@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+<!-- BrowseBook.vue -->
 <template>
     <div class="search-bar">
         <input type="text" placeholder="Search books..." v-model="searchQuery">
@@ -17,7 +17,7 @@
                 <p style="margin-bottom: 2%; color:white; font-size: 18px;"> <span style="font-weight: bold; text-align: justify; color:white;">Description: </span>{{ book.description }}</p>
                 <p style="margin-bottom: 2%; color:white; font-size: 18px;"><span style="font-weight: bold; color:white;">Price:</span> ${{ book.price }}</p>
                 <!--Button for add to cart-->
-                <!--Once the button triggered it must be display on CartBooks.vue-->
+                <!--Can you do this chat gpt Once the button triggered it must be display on CartBooks.vue-->
                 <button type="button" @click="addToCart(book)">Add to Cart</button>
             </div>
         </div>
@@ -52,6 +52,7 @@ export default {
     },
     methods: {
         addToCart(book) {
+            this.$store.commit('addToCart', book); // Dispatch mutation to add book to cart
             console.log("Added to cart:", book);
             // Dispatch an action to add the book to the cart if needed
         },
