@@ -57,6 +57,9 @@ const store = createStore({
         state.cart.push({ ...book, quantity: 1 }); 
       }
     },
+    removeCartItem(state, index) {
+      state.cart.splice(index, 1);
+    }
   },
   getters: {
     salesBooks: (state) => {

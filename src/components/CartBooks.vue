@@ -1,4 +1,3 @@
-<!-- CartBooks-->
 <template>
   <section class="mt-5">
     <div class="container">
@@ -11,6 +10,7 @@
                 <th scope="col" class="text-white">Price</th>
                 <th scope="col" class="text-white">Quantity</th>
                 <th scope="col" class="text-white">Total</th>
+                <th scope="col" class="text-white">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -19,6 +19,11 @@
                 <td>${{ item.price }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>${{ item.price * item.quantity }}</td>
+                <td>
+                  <div class="button-container">
+                    <button @click="deleteItem(index)" class="action-button delete-button">Delete</button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -36,8 +41,8 @@
           Total<span>${{ subtotal }}</span>
         </li>
       </ul>
-      <a href="#" class="proceed-btn">Proceed to Checkout</a>
-    </div>
+      <a href="#" class="proceed-btn" @click="purchaseItems">Proceed to Checkout</a>
+  </div>
   </div>
 </template>
 
@@ -51,8 +56,31 @@ export default {
       return this.$store.getters.subtotal;
     },
   },
+  methods: {
+    // updateItem(index) {
+    //   const item = this.cartItems[index];
+    //   const updatedQuantity = parseInt(item.updatedQuantity);
+    //   if (updatedQuantity > 0) {
+    //     this.$store.commit('updateCartItemQuantity', { index, quantity: updatedQuantity });
+    //   }
+    // },
+    deleteItem(index) {
+      this.$store.commit('removeCartItem', index);
+    },
+    purchaseItems() {
+      const cartItems = this.cartItems;
+      if (cartItems.length === 0) {
+        alert('No product to purchase');
+      } else {
+        alert('Products successfully purchased');
+        // Perform further actions here, like navigating to the checkout page
+      }
+    }
+  }
 };
 </script>
+
+
 
 <style scoped>
 section {
@@ -143,4 +171,35 @@ section {
   color: white;
   height: 50px;
 }
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.update-button {
+  background-color: #4caf50; /* Green */
+  color: white;
+  margin-right: 10px;
+}
+
+.delete-button {
+  background-color: #f44336; /* Red */
+  color: white;
+}
+
+.action-button:hover {
+  filter: brightness(90%);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+
+}
+
 </style>

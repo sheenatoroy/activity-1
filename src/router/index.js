@@ -3,6 +3,7 @@ import HomeViews from '../views/HomeViews.vue';
 import BrowseBookView from '../views/BrowseBookView.vue';
 import CartBooks from '@/components/CartBooks.vue';
 import LoginViews from '../views/LoginViews.vue';
+import StatusView from '../views/StatusView.vue';
 
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
         path: '/Login',
         name: 'Login',
         component: LoginViews
+    },
+    {
+        path: '/Status',
+        name: 'Status',
+        component: StatusView
     }
 ];
 
