@@ -3,6 +3,7 @@
     <nav id="navbar" class="">
       <div class="nav-wrapper">
         <div class="logo">
+          <img src="@/assets/book.png" alt="Logo Image" />
           <a>Online Bookstore</a>
         </div>
 
@@ -30,24 +31,59 @@
             @mouseover="toggleDropdown(true)"
             @mouseleave="toggleDropdown(false)"
           >
-            <a class="nav-link dropdown-toggle">
+            <a class="nav-link dropdown-toggle" @click="toggleDropdown">
               <i class="fa fa-user"></i>
             </a>
-            <ul class="dropdown-menu" v-show="isDropdownOpen && isLoggedIn">
+            <ul class="dropdown-menu" v-show="isDropdownOpen">
               <li>
-                <router-link to="/Status" class="nav-link">Status</router-link>
+                <a class="nav-link" @click="status">Status</a>
               </li>
-              <li>
+              <li v-if="isLoggedIn">
                 <a class="nav-link" @click="logout">Logout</a>
               </li>
-            </ul>
-            <ul class="dropdown-menu" v-show="isDropdownOpen && !isLoggedIn">
-              <li>
+              <li v-else>
                 <router-link to="/Login" class="nav-link">Login</router-link>
               </li>
             </ul>
           </li>
         </ul>
+      </div>
+      <div v-if="showStatus" class="confirmation-overlay">
+        <div class="confirmation-popup">
+          <div class="confirmation-content">
+            <div class="checkmark-container" v-if="isLoggedIn">
+              <img
+                src="@/assets/authenticated.gif"
+                alt="Authenticated Animation"
+              />
+            </div>
+            <div class="checkmark-container" v-if="!isLoggedIn">
+              <img
+                src="@/assets/unauthenticated.gif"
+                alt="Unauthenticated Animation"
+              />
+            </div>
+          </div>
+          <div class="confirmation-content">
+            <p
+              :class="{
+                authenticated: isLoggedIn,
+                unauthenticated: !isLoggedIn,
+              }"
+            >
+              {{ isLoggedIn ? "Authenticated" : "Unauthenticated" }}
+            </p>
+            <!-- Description below the text -->
+            <p v-if="!isLoggedIn" class="description">
+              Please log in to your account to access books and other features.
+            </p>
+            <p v-if="isLoggedIn" class="description">
+              Congratulations! You can now add books to your cart and proceed
+              with transactions.
+            </p>
+            <button @click="closeStatus">OK</button>
+          </div>
+        </div>
       </div>
     </nav>
     <router-view />
@@ -65,6 +101,8 @@ export default {
   data() {
     return {
       isDropdownOpen: false,
+      showStatus: false,
+      notificationMessage: "",
     };
   },
   methods: {
@@ -74,6 +112,12 @@ export default {
     logout() {
       this.$store.commit("setUserAuthenticated", false);
       this.$router.push("/");
+    },
+    status() {
+      this.showStatus = true;
+    },
+    closeStatus() {
+      this.showStatus = false;
     },
   },
 };
@@ -111,11 +155,6 @@ a {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-wrapper {
-  margin: auto;
-  text-align: center;
-  width: 70%;
-}
 @media (max-width: 768px) {
   .nav-wrapper {
     width: 90%;
@@ -127,15 +166,26 @@ a {
   }
 }
 
-.logo {
-  float: left;
-  margin-left: -30px;
-  font-size: 1em;
-  height: 60px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: bold;
+.nav-wrapper {
+    width: 100%; 
+    padding: 0; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+
+.logo img {
+  width: 40px;
+  height: 40px; 
+  margin-right: 10px; 
+}
+
 @media (max-width: 768px) {
   .logo {
   }
@@ -223,19 +273,17 @@ a {
 }
 
 .dropdown-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  background-color: white;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 10px 0;
+    position: absolute;
+    top: 100%;
+    left: -40px;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 10px 0;
+    display: none; 
+    flex-direction: column;
 }
+
 
 .dropdown-menu li {
   display: block;
@@ -254,5 +302,69 @@ a {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(244, 241, 241);
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.confirmation-content {
+  text-align: center;
+  color: black;
+}
+
+.confirmation-content p {
+  margin-bottom: 10px;
+}
+
+.checkmark-container img {
+  width: 80px;
+  height: 80px;
+}
+
+.confirmation-content button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirmation-content button:hover {
+  background-color: #45a049;
+}
+
+.authenticated {
+  color: green;
+}
+
+.unauthenticated {
+  color: red;
+}
+
+.description {
+  color: black;
 }
 </style>
