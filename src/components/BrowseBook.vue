@@ -17,7 +17,6 @@
                 <p style="margin-bottom: 2%; color:white; font-size: 18px;"> <span style="font-weight: bold; text-align: justify; color:white;">Description: </span>{{ book.description }}</p>
                 <p style="margin-bottom: 2%; color:white; font-size: 18px;"><span style="font-weight: bold; color:white;">Price:</span> ${{ book.price }}</p>
                 <!--Button for add to cart-->
-                <!--Can you do this chat gpt Once the button triggered it must be display on CartBooks.vue-->
                 <button type="button" @click="addToCart(book)">Add to Cart</button>
             </div>
         </div>

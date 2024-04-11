@@ -42,7 +42,7 @@ const store = createStore({
           "https://images-na.ssl-images-amazon.com/images/I/81djg0KWthS.jpg",
       },
     ],
-    cart: [], // Initialize cart as an empty array
+    cart: [],
   },
   //dito mareretrieve yung commit from Login.vue
   mutations: {
@@ -52,9 +52,9 @@ const store = createStore({
     addToCart(state, book) {
       const cartItem = state.cart.find((item) => item.title === book.title);
       if (cartItem) {
-        cartItem.quantity++; // Increase quantity if book already exists in cart
+        cartItem.quantity++;
       } else {
-        state.cart.push({ ...book, quantity: 1 }); // Add book to cart with quantity 1
+        state.cart.push({ ...book, quantity: 1 }); 
       }
     },
   },
@@ -71,7 +71,7 @@ const store = createStore({
       });
     },
     cartItems: (state) => {
-      return state.cart; // Getter to retrieve cart items
+      return state.cart; 
     },
     subtotal: (state) => {
       return state.cart.reduce((total, item) => {
