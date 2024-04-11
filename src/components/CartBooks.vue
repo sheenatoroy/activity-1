@@ -19,6 +19,10 @@
                 <td>${{ item.price }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>${{ item.price * item.quantity }}</td>
+                <td>
+                  <button @click="updateItem(index)">Update</button>
+                  <button @click="deleteItem(index)">Delete</button>
+                </td>
               </tr>
             </tbody>
           </table>

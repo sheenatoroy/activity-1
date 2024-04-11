@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 const store = createStore({
   name: "books",
   state: {
-    isLoggedIn: false, // pa ma track yung status ng user
+    isLoggedIn: false,
     books: [
       {
         title: "After You",
