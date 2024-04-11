@@ -19,10 +19,6 @@
                 <td>${{ item.price }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>${{ item.price * item.quantity }}</td>
-                <td>
-                  <button @click="updateItem(index)">Update</button>
-                  <button @click="deleteItem(index)">Delete</button>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -40,10 +36,39 @@
           Total<span>${{ subtotal }}</span>
         </li>
       </ul>
-      <a href="#" class="proceed-btn">Proceed to Checkout</a>
+      <a href="#" class="proceed-btn" @click="checkOut">Proceed to Checkout</a>
     </div>
   </div>
-</template>
+
+  <div v-if="showCheckOut" class="checkout-overlay">
+    <div class="checkout-popup">
+      <div class="checkout-content">
+        <div class="checkmark-container">
+          <img src="@/assets/check.gif" alt="Checkmark Animation" />
+        </div>
+        <p>Summary</p>
+        <table class="summary-table">
+          <thead class="thead-dark1">
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in cartItems" :key="index">
+              <td>{{ item.title }}</td>
+              <td>${{ item.price }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="summary-total">
+          Total: ${{ subtotal }}
+        </div>
+        <button class="pay-btn" @click="payment">PAY NOW</button>
+      </div>
+    </div>
+  </div>
+  </template>
 
 <script>
 export default {
@@ -53,6 +78,20 @@ export default {
     },
     subtotal() {
       return this.$store.getters.subtotal;
+    },
+  },
+  data() {
+    return {
+      showCheckOut: false,
+    };
+  },
+  methods: {
+    checkOut() {
+      this.showCheckOut = true;
+      console.log("Checked Out shit");
+    },
+    payment() {
+      this.showCheckOut = false;
     },
   },
 };
@@ -71,6 +110,7 @@ section {
   margin-bottom: 30px;
   border-bottom: 1px solid #fff;
   width: 100%;
+  text-align: center;
 }
 
 .cart .table thead tr th {
@@ -134,17 +174,78 @@ section {
   color: #fff;
   background: #252525;
   text-transform: uppercase;
-  padding: 12px 25px;
+  padding: 12px 24px;
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-left: 39.7%;
   text-align: center;
   border-radius: 5px;
-  float: right;
 }
 
 .thead-dark {
   background-color: #000;
   color: white;
   height: 50px;
+}
+
+.thead-dark1 {
+  background-color: #25c02774;
+  color: white;
+  height: 50px;
+}
+
+.checkout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-popup {
+  background-color: #f4f1f1;
+  color: black;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.cart .table {
+  margin-bottom: 30px;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.checkout-content {
+  text-align: center;
+}
+
+.checkout-content p {
+  margin-bottom: 20px;
+}
+
+.summary-table {
+  margin-bottom: 10px;
+}
+
+.summary-total {
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.pay-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 0;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>
