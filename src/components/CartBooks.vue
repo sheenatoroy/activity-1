@@ -1,4 +1,4 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+<!-- CartBooks-->
 <template>
   <section class="mt-5">
     <div class="container">
@@ -14,7 +14,12 @@
               </tr>
             </thead>
             <tbody>
-              <!--The books that added in cart must be display here make it loop-->
+              <tr v-for="(item, index) in cartItems" :key="index">
+                <td>{{ item.title }}</td>
+                <td>${{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price * item.quantity }}</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -24,23 +29,38 @@
   <div class="col-lg-4 offset-lg-4">
     <div class="checkout">
       <ul>
-        <li class="subtotal">Subtotal<span>₱</span></li>
-        <li class="cart-total">Total<span>₱</span></li>
+        <li class="subtotal">
+          Subtotal<span>${{ subtotal }}</span>
+        </li>
+        <li class="cart-total">
+          Total<span>${{ subtotal }}</span>
+        </li>
       </ul>
       <a href="#" class="proceed-btn">Proceed to Checkout</a>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    cartItems() {
+      return this.$store.getters.cartItems;
+    },
+    subtotal() {
+      return this.$store.getters.subtotal;
+    },
+  },
+};
+</script>
+
 <style scoped>
-section{
+section {
   margin: 10% 5% 5% 5%;
 }
 
-.checkout{
-
+.checkout {
   margin: 5% 5% 5% 5%;
-
 }
 
 .cart .table {
@@ -89,7 +109,6 @@ section{
   font-weight: bold;
   color: #252525;
   text-transform: uppercase;
-
 }
 
 .checkout ul li.subtotal {
@@ -119,11 +138,9 @@ section{
   float: right;
 }
 
-.thead-dark{
-
+.thead-dark {
   background-color: #000;
   color: white;
   height: 50px;
 }
-
 </style>
